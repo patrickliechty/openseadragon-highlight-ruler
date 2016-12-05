@@ -9,6 +9,10 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
     <link rel="stylesheet" type="text/css" href="stylesheets/highlight-ruler.css" media="screen">
 
+    <script src="//openseadragon.github.io/openseadragon/openseadragon.js"></script>
+    <script src="//cdn.rawgit.com/patrickliechty/openseadragon-highlight-ruler/master/src/highlight-ruler.js"></script>
+    <script src="//cdn.rawgit.com/patrickliechty/openseadragon-highlight-ruler/master/src/highlight-ruler-overlay.js"></script>
+
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -48,16 +52,13 @@
       </div>
     </div>
 
-    <script src="https://openseadragon.github.io/openseadragon/openseadragon.min.js"></script>
-    <script src="https://cdn.rawgit.com/patrickliechty/openseadragon-highlight-ruler/master/src/highlight-ruler.js"></script>
-    <script src="https://cdn.rawgit.com/patrickliechty/openseadragon-highlight-ruler/master/src/highlight-ruler-overlay.js"></script>
 
-    <script type="text/javascript">
+      <script type="text/javascript">
 
         var duomo = {
             Image: {
-                xmlns: "https://schemas.microsoft.com/deepzoom/2008",
-                Url: "https://openseadragon.github.io/example-images/duomo/duomo_files/",
+                xmlns: "http://schemas.microsoft.com/deepzoom/2008",
+                Url: "http://openseadragon.github.io/example-images/duomo/duomo_files/",
                 Format: "jpg",
                 Overlap: "2",
                 TileSize: "256",
@@ -70,7 +71,7 @@
 
         var viewer = OpenSeadragon({
             id: "seadragon-viewer",
-            prefixUrl: "https://openseadragon.github.io/openseadragon/images/",
+            prefixUrl: "http://openseadragon.github.io/openseadragon/images/",
             tileSources: duomo
         });
 
@@ -84,6 +85,5 @@
         });
 
      </script>
-
   </body>
 </html>
