@@ -57,7 +57,7 @@
     
               
       function onInsideDrag(e) {
-        $.addClass(this.element, 'dragging');
+        $.addClass(this.element, 'highlight-ruler-dragging');
         var delta = this.viewer.viewport.deltaPointsFromPixels(e.delta, true);
         this.rect.x += delta.x;
         this.rect.y += delta.y;
@@ -70,7 +70,7 @@
       }
 
       function onInsideDragEnd() {
-        $.removeClass(this.element, 'dragging');
+        $.removeClass(this.element, 'highlight-ruler-dragging');
       }
 
       this.viewer.addHandler('open', this.draw.bind(this));
