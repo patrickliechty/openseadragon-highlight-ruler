@@ -45,10 +45,14 @@
         this.overlay = new $.RulerOverlay(this.element, this.rect);
       }
     
-      this.enabled = function(enable) {
-        enable ? this.element.style.display = 'block' : this.element.style.display = 'none';
+      this.enable = function() {
+        this.element.style.display = 'block';
       }
     
+      this.disable = function() {
+        this.element.style.display = 'none';
+      }
+
       this.innerTracker = new $.MouseTracker({
         element:            this.element,
         dragHandler:        $.delegate( this, onInsideDrag ),
