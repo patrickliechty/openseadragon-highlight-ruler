@@ -53,6 +53,18 @@
         this.element.style.display = 'none';
       }
 
+      this.getRect = function {
+        return this.rect;
+      }
+
+      this.setColor = function(color) {
+        this.element.style.backgroundColor = color;
+      }
+
+      this.setOpacity = function(opacity) {
+        this.element.style.opacity = opacity;
+      }
+
       this.innerTracker = new $.MouseTracker({
         element:            this.element,
         dragHandler:        $.delegate( this, onInsideDrag ),
