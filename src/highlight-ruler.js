@@ -53,7 +53,7 @@
         this.element.style.display = 'none';
       }
 
-      this.getRect = function {
+      this.getRect = function() {
         return this.rect;
       }
 
@@ -75,18 +75,17 @@
       function onInsideDrag(e) {
         $.addClass(this.element, 'highlight-ruler-dragging');
         var delta = this.viewer.viewport.deltaPointsFromPixels(e.delta, true);
-        this.rect.x += delta.x;
-        this.rect.y += delta.y;
         var bounds = this.viewer.world.getHomeBounds();
-        if (this.restrictToImage && !this.rect.fitsIn(new $.Rect(0, 0, bounds.width, bounds.height))) {
-          this.rect.x -= delta.x;
-          this.rect.y -= delta.y;
+        var newY = this.rect.y + delta.y;
+        if (newY < bounds.height && newY > 0) {
+          this.rect.y += delta.y;
         }
         this.draw();
       }
 
       function onInsideDragEnd() {
         $.removeClass(this.element, 'highlight-ruler-dragging');
+        this.viewer.raiseEvent('highlight-ruler-drag-end', {rect: this.rect});
       }
 
       this.viewer.addHandler('open', this.draw.bind(this));
