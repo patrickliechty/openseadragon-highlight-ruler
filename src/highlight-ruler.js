@@ -35,11 +35,11 @@
       
       if (!this.element) {
         this.element = $.makeNeutralElement('div');
+        $.addClass(this.element, 'highlight-ruler');
         this.element.style.backgroundColor = this.color;
         this.element.style.opacity = this.opacity;
-        this.element.id = 'highlight-ruler';
-      }
-      
+        this.element.id = 'highlight-ruler';      
+      }      
       if (!this.overlay) {
 
         this.overlay = new $.RulerOverlay(this.element, this.rect);

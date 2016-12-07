@@ -33,11 +33,12 @@
         //Code to create the ruler
 
         var ruler = viewer.highlightRuler({
-          isVisible: false,
           color: '#FFFF00',
           opacity: '0.5',
           rect: new OpenSeadragon.Rect(-5.0, 0.1, 10, 0.03)
         });
+
+        ruler.enable();
 
      </script>
   </body>
