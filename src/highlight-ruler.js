@@ -21,12 +21,14 @@
   * @param {Object} options
   */
   $.Ruler = function ( options ) {
+      var self = this;
       $.extend( true, this, {
           // internal state properties
           viewer:                  null,
           color:                   '#FFFF00',
           opacity:                 '0.5',
-          rect:                    null
+          rect:                    null,
+          elementId:               'highlight-ruler'
       }, options );
     
       if (!this.rect) {
@@ -35,18 +37,18 @@
       
       if (!this.element) {
         this.element = $.makeNeutralElement('div');
-        $.addClass(this.element, 'highlight-ruler');
+        $.addClass(this.element, this.elementId);
         this.element.style.backgroundColor = this.color;
         this.element.style.opacity = this.opacity;
-        this.element.id = 'highlight-ruler';      
+        this.element.id = this.elementId;
       }      
       if (!this.overlay) {
-
         this.overlay = new $.RulerOverlay(this.element, this.rect);
       }
     
       this.enable = function() {
         this.element.style.display = 'block';
+        self.ensureVisible();
       }
     
       this.disable = function() {
@@ -65,21 +67,20 @@
         this.element.style.opacity = opacity;
       }
 
+      this.destroy = function() {
+        this.undraw();
+      }
+
       this.innerTracker = new $.MouseTracker({
         element:            this.element,
         dragHandler:        $.delegate( this, onInsideDrag ),
         dragEndHandler:     $.delegate( this, onInsideDragEnd )
       });
-    
               
       function onInsideDrag(e) {
         $.addClass(this.element, 'highlight-ruler-dragging');
         var delta = this.viewer.viewport.deltaPointsFromPixels(e.delta, true);
-        var bounds = this.viewer.world.getHomeBounds();
-        var newY = this.rect.y + delta.y;
-        if (newY < bounds.height && newY > 0) {
-          this.rect.y += delta.y;
-        }
+        this.rect.y += delta.y;
         this.draw();
       }
 
@@ -88,18 +89,39 @@
         this.viewer.raiseEvent('highlight-ruler-drag-end', {rect: this.rect});
       }
 
+      this.ensureVisible = function() {
+        var top = self.element.offsetTop;
+        var height = self.element.offsetHeight;
+
+        var viewerElement = document.getElementsByClassName('openseadragon-canvas');
+        var viewerHeight = viewerElement[0].offsetHeight;
+
+        console.log("ensureVisible top: ", top, " height: ", height + " windowSize.height: ", viewerHeight);
+        if (top < 0) {
+          self.rect.y = 0;
+          console.log("Move to be visible new Y: " + self.rect.y);
+          self.draw();
+        }
+        if (top + height > viewerHeight) {
+          self.rect.y = viewerHeight - height;
+          console.log("Move to be visible new Y: " + self.rect.y);
+          self.draw();
+        }
+      }
+
       this.viewer.addHandler('open', this.draw.bind(this));
       this.viewer.addHandler('animation', this.draw.bind(this));
       this.viewer.addHandler('resize', this.draw.bind(this));
-      this.viewer.addHandler('rotate', this.draw.bind(this));
+      var initialized = false;
+      this.viewer.addHandler('tile-drawn', function() {
+        if (!initialized) {
+          self.ensureVisible();
+        }
+        initialized = true;
+      });
   };
   
   $.extend( $.Ruler.prototype, $.ControlDock.prototype, {
-
-    destroy: function() {
-      this.undraw();
-      return this;
-    },
     
     draw: function() {
       if (this.rect) {
