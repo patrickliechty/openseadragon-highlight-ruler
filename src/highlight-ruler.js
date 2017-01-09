@@ -55,6 +55,10 @@
         this.element.style.display = 'none';
       }
 
+      this.setRect = function (rect) {
+        this.rect = rect;
+        this.draw();
+      }
       this.getRect = function() {
         return this.rect;
       }
@@ -96,15 +100,15 @@
         var viewerElement = document.getElementsByClassName('openseadragon-canvas');
         var viewerHeight = viewerElement[0].offsetHeight;
 
-        console.log("ensureVisible top: ", top, " height: ", height + " windowSize.height: ", viewerHeight);
+        //console.log("ensureVisible top: ", top, " height: ", height + " windowSize.height: ", viewerHeight);
         if (top < 0) {
           self.rect.y = 0;
-          console.log("Move to be visible new Y: " + self.rect.y);
+          //console.log("Move to be visible new Y: " + self.rect.y);
           self.draw();
         }
         if (top + height > viewerHeight) {
           self.rect.y = viewerHeight - height;
-          console.log("Move to be visible new Y: " + self.rect.y);
+          //console.log("Move to be visible new Y: " + self.rect.y);
           self.draw();
         }
       }
