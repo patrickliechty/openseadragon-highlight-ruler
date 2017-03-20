@@ -97,8 +97,8 @@
         var top = self.element.offsetTop;
         var height = self.element.offsetHeight;
 
-        var viewerElement = document.getElementsByClassName('openseadragon-canvas');
-        var viewerHeight = viewerElement[0].offsetHeight;
+        var viewerElement = self.viewer.canvas;
+        var viewerHeight = viewerElement.offsetHeight;
 
         //console.log("ensureVisible top: ", top, " height: ", height + " windowSize.height: ", viewerHeight);
         if (top < 0) {
